@@ -2,21 +2,41 @@ import random
 import os
 import time
 
-ju = 0
-fs = 0
-dfs = 0
-gz = ('''
-    游戏规则:
-        这是一个关于石头剪刀布的游戏
-        战胜对方加一分；
-        对战10局后分数多者获胜；
-        如果十局后分数想等，则加赛至分数多于对方两分胜利；
-        超过二十局仍未结束时，分数多者胜利；
-        分数仍然想等则双方平局。
 
-        ps：中途退出者自动判负。
-    ''')
+def bc():
+    f2 = open('1.txt', 'w')
+    f2.write(str(fs) + '\n')
+    f2.write(str(dfs) + '\n')
+    f2.write(str(ju))
+    f2.close()
+
+
+def cs():
+    global ju, fs, dfs
+    f = open('2.txt', 'a+')
+    f.write('\n')
+    f.write(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) + '你的分数为' + str(fs) + '对方的分数为' + str(dfs))
+    f.close()
+    ju = 0
+    fs = 0
+    dfs = 0
+
+
+f1 = open('1.txt')
+fs = int(f1.readline(10))
+dfs = int(f1.readline(10))
+ju = int(f1.readline(10))
+f1.close()
+gz = ('''游戏规则:
+    这是一个关于石头剪刀布的游戏
+    战胜对方加一分；
+    对战10局后分数多者获胜；
+    如果十局后分数想等，则加赛至分数多于对方两分胜利；
+    超过二十局仍未结束时，分数多者胜利；
+    分数仍然想等则双方平局。''')
+os.system('cls')
 print(gz)
+input('\n回车返回')
 
 
 def yx():
@@ -27,15 +47,15 @@ def yx():
     print('石头剪刀布')
     print('请输入你要出什么')
     print('''
-    \'1\'或者\'石头\'表示石头
-    \'2\'或者\'剪刀\'表示剪刀
-    \'3\'或者 \'布\' 表示布
-    \'4\'或者 \'规则\' 查看规则
-    \'5\'或者 \'退出\' 退出游戏
-    \'6\'或者 \'比分\' 显示分数
-    ''')
+\'1\'或者\'石头\'表示石头
+\'2\'或者\'剪刀\'表示剪刀
+\'3\'或者\'布\'表示布
+\'4\'或者\'规则\'查看规则
+\'5\'或者\'退出\'退出游戏
+\'6\'或者\'比分\'显示分数
+\'7\'或者\'历史\'查看历史对局''')
     global su, cw
-    su = str(input('》'))
+    su = str(input('\n>>>'))
     if su == '1' or su == '石头':
         su = '石头'
         ss = 1
@@ -60,8 +80,16 @@ def yx():
     elif su == '6' or su == '比分':
         print(f'''你的分数为{fs}
 对方的分数为{dfs}
+你们完成的局数是{ju}
         ''')
-        input('按下任意建回车返回')
+        input('回车返回')
+        return
+    elif su == '7' or su == '历史':
+        os.system('cls')
+        f = open('2.txt')
+        print(f.read())
+        f.close()
+        input('回车返回')
         return
     else:
         print('您输入错误，请重新输入')
@@ -103,9 +131,11 @@ while su != '5':
     elif ju == 10:
         if fs > dfs:
             print('恭喜你，你赢了！！！')
+            cs()
             break
         elif fs < dfs:
             print("很遗憾，你输了。")
+            cs()
             break
         else:
             yx()
@@ -115,9 +145,11 @@ while su != '5':
     elif ju < 20:
         if fs - dfs >= 2:
             print('恭喜你，你赢了！！！')
+            cs()
             break
         elif dfs - fs >= 2:
             print("很遗憾，你输了。")
+            cs()
             break
         else:
             yx()
@@ -127,10 +159,14 @@ while su != '5':
     elif ju == 20:
         if fs > dfs:
             print("恭喜你，你赢了！！！")
+            cs()
             break
         elif dfs > fs:
             print("很遗憾，你输了。")
+            cs()
             break
         else:
             print('平局，你们旗鼓相当')
+            cs()
             break
+bc()
