@@ -4,29 +4,34 @@ import time
 
 
 def bc():
-    f2 = open('1.txt', 'w')
-    f2.write(str(fs) + '\n')
-    f2.write(str(dfs) + '\n')
-    f2.write(str(ju))
-    f2.close()
+    f3 = open('1.txt', 'w')
+    f3.write(str(fs) + '\n')
+    f3.write(str(dfs) + '\n')
+    f3.write(str(ju))
+    f3.close()
 
 
 def cs():
     global ju, fs, dfs
-    f = open('2.txt', 'a+')
-    f.write('\n')
-    f.write(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) + '你的分数为' + str(fs) + '对方的分数为' + str(dfs))
+    f = open('2.txt', 'a')
+    f.write(time.strftime("%Y年-%m月-%d日 %H:%M:%S ", time.localtime(time.time())) + '你的分数为%d对方的分数为%d\n' % (fs, dfs))
     f.close()
     ju = 0
     fs = 0
     dfs = 0
 
 
-f1 = open('1.txt')
-fs = int(f1.readline(10))
-dfs = int(f1.readline(10))
-ju = int(f1.readline(10))
-f1.close()
+if not os.path.isfile('1.txt'):
+    f1 = open('1.txt', 'w+')
+    f1.write('0\n0\n0')
+    f1.close()
+if not os.path.isfile('2.txt'):
+    os.system('type NUL > 2.txt')
+f2 = open('1.txt', 'r+')
+fs = int(f2.readline(10))
+dfs = int(f2.readline(10))
+ju = int(f2.readline(10))
+f2.close()
 gz = ('''游戏规则:
     这是一个关于石头剪刀布的游戏
     战胜对方加一分；
